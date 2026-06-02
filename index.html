@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joshua Omugtong — RevOps & Automation Architect</title>
+<meta name="description" content="Founding RevOps & Automation Architect. I build autonomous AI systems that run revenue operations end to end — voice agents, multi-agent orchestration, and the data pipelines behind them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06060c;
+    --bg-soft: #0a0b14;
+    --bg-card: #0e1019;
+    --bg-hover: #14172333;
+    --border: #1e2230;
+    --border-bright: #2e3346;
+    --text: #eef0fb;
+    --text-dim: #a3a8c0;
+    --text-muted: #6a6f86;
+    --accent: #5ea9ff;
+    --accent2: #b78cff;
+    --violet: #9d6bff;
+    --green: #3fd17a;
+    --orange: #f0a942;
+    --pink: #f778ba;
+    --red: #f85149;
+    --cyan: #2fd9c5;
+    --node-bg: #14172333;
+    --node-border: #2c3346;
+    --arrow: #3a4252;
+    --glow: rgba(94,169,255,0.16);
+    --glow2: rgba(157,107,255,0.16);
+    --head: 'Space Grotesk', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: #8cc2ff; }
+
+  ::selection { background: rgba(94,169,255,0.28); color: #fff; }
+
+  /* ambient background */
+  .bg-fx { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+  .bg-fx::before {
+    content: ""; position: absolute; top: -10%; left: 50%; transform: translateX(-50%);
+    width: 1100px; height: 700px;
+    background: radial-gradient(ellipse at center, var(--glow), transparent 70%);
+    filter: blur(20px);
+  }
+  .bg-fx::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 30%, transparent 75%);
+    opacity: 0.45;
+  }
+  /* floating ambient orbs */
+  .orb { position: fixed; border-radius: 50%; filter: blur(90px); opacity: 0.5; z-index: -1; pointer-events: none; will-change: transform; }
+  .orb-1 { width: 520px; height: 520px; top: -120px; left: -140px; background: radial-gradient(circle, rgba(94,169,255,0.5), transparent 65%); animation: float1 22s ease-in-out infinite; }
+  .orb-2 { width: 460px; height: 460px; top: 38%; right: -160px; background: radial-gradient(circle, rgba(157,107,255,0.45), transparent 65%); animation: float2 26s ease-in-out infinite; }
+  .orb-3 { width: 400px; height: 400px; bottom: -120px; left: 20%; background: radial-gradient(circle, rgba(47,217,197,0.3), transparent 65%); animation: float1 30s ease-in-out infinite reverse; }
+  @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(40px,60px) scale(1.08); } }
+  @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,40px) scale(1.12); } }
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes shimmer { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .orb { animation: none !important; } }
+
+  /* display type */
+  h1, .section-title, .project-name, .metric-val, nav .logo, .engage .lead, footer .cta, .hero h1 { font-family: var(--head); }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; position: relative; }
+
+  /* icons */
+  i[data-lucide] { width: 1em; height: 1em; vertical-align: -0.12em; stroke-width: 2; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8,9,13,0.7); backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--border); padding: 13px 0;
+  }
+  nav .container { display: flex; justify-content: space-between; align-items: center; }
+  nav .logo { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+  nav .logo i { color: var(--accent); }
+  nav .links { display: flex; gap: 6px; font-size: 13px; align-items: center; }
+  nav .links a { color: var(--text-dim); padding: 6px 12px; border-radius: 7px; transition: all 0.18s; display: flex; align-items: center; gap: 6px; }
+  nav .links a:hover { color: var(--text); background: var(--bg-hover); }
+  nav .links a.active { color: var(--accent); }
+  nav .links a i { font-size: 14px; }
+  @media (max-width: 720px) { nav .links a span { display: none; } }
+
+  /* HERO */
+  .hero { padding: 92px 0 56px; position: relative; }
+  .hero .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono);
+    font-size: 12px; color: var(--accent); background: rgba(94,169,255,0.08);
+    border: 1px solid rgba(94,169,255,0.22); padding: 7px 16px; border-radius: 100px; margin-bottom: 24px;
+    box-shadow: 0 0 0 0 rgba(94,169,255,0.3), inset 0 0 18px rgba(94,169,255,0.06);
+    animation: floaty 5s ease-in-out infinite;
+  }
+  .hero .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); animation: pulse 2.4s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .hero h1 { font-size: clamp(34px, 6vw, 60px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 22px; }
+  .hero h1 .grad {
+    background: linear-gradient(100deg, var(--accent) 0%, var(--violet) 35%, var(--accent2) 60%, var(--cyan) 100%);
+    background-size: 220% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    animation: shimmer 7s linear infinite;
+  }
+  .hero h1 .rotator { display: block; min-height: 1.05em; white-space: nowrap; transition: opacity 0.4s, transform 0.4s; }
+  .hero h1 .rotator.swap { opacity: 0; transform: translateY(8px); }
+  .hero .subtitle { font-family: var(--mono); font-size: 15px; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .hero .subtitle .sep { color: var(--text-muted); }
+  .hero .subtitle .co { color: var(--accent); }
+  .hero .bio { font-size: 16px; color: var(--text-dim); max-width: 660px; line-height: 1.75; margin-bottom: 28px; }
+  .hero .bio strong { color: var(--text); font-weight: 600; }
+  .hero .links-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero .links-row a {
+    font-size: 14px; padding: 10px 18px; border: 1px solid var(--border-bright); border-radius: 9px;
+    color: var(--text-dim); transition: all 0.2s; display: flex; align-items: center; gap: 8px; font-weight: 500;
+  }
+  .hero .links-row a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .hero .links-row a.primary { background: var(--accent); color: #06080d; border-color: var(--accent); font-weight: 600; }
+  .hero .links-row a.primary:hover { background: #8cc2ff; color: #06080d; box-shadow: 0 8px 24px rgba(94,169,255,0.3); }
+
+  /* brand icons (Lucide dropped these) */
+  svg.brand { width: 1em; height: 1em; vertical-align: -0.13em; }
+
+  /* HERO LAYOUT WITH PHOTO */
+  .hero-grid { display: grid; grid-template-columns: 1fr 264px; gap: 52px; align-items: center; }
+  .hero-photo { position: relative; }
+  .hero-photo::before {
+    content: ""; position: absolute; inset: -14px; border-radius: 24px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2) 55%, var(--cyan));
+    opacity: 0.22; filter: blur(26px); z-index: 0;
+  }
+  .hero-photo img {
+    position: relative; z-index: 1; width: 100%; height: auto; aspect-ratio: 760 / 1064; object-fit: cover; border-radius: 18px; display: block;
+    border: 1px solid var(--border-bright); box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+  }
+  @media (max-width: 820px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero-photo { max-width: 220px; }
+  }
+
+  /* ENGAGEMENT */
+  .engage { background: linear-gradient(135deg, rgba(94,169,255,0.07), rgba(183,140,255,0.05)); border: 1px solid var(--border-bright); border-radius: 18px; padding: 36px; }
+  .engage .lead { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .engage .lead .grad { background: linear-gradient(115deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .engage p { font-size: 14.5px; color: var(--text-dim); line-height: 1.75; max-width: 720px; margin-bottom: 22px; }
+  .engage-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .engage-col { background: var(--bg-card); padding: 20px; }
+  .engage-col .ec-label { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 7px; display: flex; align-items: center; gap: 7px; }
+  .engage-col .ec-title { font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+  .engage-col .ec-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; }
+  @media (max-width: 768px) { .engage-cols { grid-template-columns: 1fr; } .engage { padding: 26px 22px; } }
+
+  /* METRICS */
+  .metrics { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin: 44px 0 8px; }
+  .metric { background: var(--bg-card); padding: 26px 14px; text-align: center; transition: background 0.2s; }
+  .metric:hover { background: var(--bg-hover); }
+  .metric-val { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .metric-label { font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px; font-family: var(--mono); }
+
+  /* SECTION */
+  .section { padding: 64px 0 8px; }
+  .section-header { margin-bottom: 40px; }
+  .section-label { font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .section-title { font-size: 28px; font-weight: 800; letter-spacing: -0.025em; }
+  .section-desc { font-size: 15px; color: var(--text-dim); margin-top: 10px; max-width: 660px; line-height: 1.7; }
+
+  /* PROJECT CARD */
+  .project {
+    background: linear-gradient(180deg, rgba(20,23,36,0.55), rgba(10,11,20,0.45));
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border); border-radius: 18px; padding: 30px; margin-bottom: 22px;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden;
+  }
+  .project::before {
+    content: ""; position: absolute; inset: 0; border-radius: 18px; padding: 1px; pointer-events: none;
+    background: linear-gradient(140deg, rgba(94,169,255,0.55), transparent 38%, transparent 62%, rgba(157,107,255,0.5));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .project:hover::before { opacity: 1; }
+  .project:hover { transform: translateY(-4px); box-shadow: 0 24px 56px rgba(0,0,0,0.5); }
+  .project-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 8px; }
+  .project-name { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; display: flex; align-items: center; gap: 11px; }
+  .project-name i { color: var(--accent); font-size: 20px; flex-shrink: 0; }
+  .project-badge { font-family: var(--mono); font-size: 10.5px; font-weight: 500; padding: 5px 11px; border-radius: 100px; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; }
+  .badge-prod { background: rgba(63,209,122,0.12); color: var(--green); border: 1px solid rgba(63,209,122,0.3); }
+  .badge-live { background: rgba(47,217,197,0.12); color: var(--cyan); border: 1px solid rgba(47,217,197,0.3); }
+  .badge-oss { background: rgba(183,140,255,0.12); color: var(--accent2); border: 1px solid rgba(183,140,255,0.3); }
+  .badge-client { background: rgba(240,169,66,0.12); color: var(--orange); border: 1px solid rgba(240,169,66,0.3); }
+  .project-context { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
+  .project-desc { font-size: 14.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 20px; }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 18px; overflow-x: auto; }
+  .arch-title { font-family: var(--mono); font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 18px; display: flex; align-items: center; gap: 7px; }
+  .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; justify-content: center; }
+  .flow-vertical { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { background: var(--node-bg); border: 1px solid var(--node-border); border-radius: 8px; padding: 9px 15px; font-size: 11.5px; font-weight: 600; white-space: nowrap; text-align: center; transition: transform 0.15s; }
+  .node:hover { transform: scale(1.05); }
+  .node-accent { border-color: rgba(94,169,255,0.5); color: var(--accent); }
+  .node-green { border-color: rgba(63,209,122,0.5); color: var(--green); }
+  .node-purple { border-color: rgba(183,140,255,0.5); color: var(--accent2); }
+  .node-orange { border-color: rgba(240,169,66,0.5); color: var(--orange); }
+  .node-cyan { border-color: rgba(47,217,197,0.5); color: var(--cyan); }
+  .node-pink { border-color: rgba(247,120,186,0.5); color: var(--pink); }
+  .node-sub { font-size: 9px; font-weight: 400; color: var(--text-muted); display: block; margin-top: 2px; }
+  .arrow { color: var(--arrow); padding: 0 7px; user-select: none; display: flex; align-items: center; }
+  .arrow i { font-size: 16px; }
+  .arrow-down { color: var(--arrow); padding: 5px 0; user-select: none; }
+  .flow-branch { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
+
+  /* IMPACT */
+  .impact-row { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 16px; }
+  .impact { font-family: var(--mono); font-size: 11.5px; font-weight: 500; padding: 6px 12px; border-radius: 7px; display: inline-flex; align-items: center; gap: 6px; }
+  .impact i { font-size: 13px; }
+  .impact-green { background: rgba(63,209,122,0.1); color: var(--green); }
+  .impact-blue { background: rgba(94,169,255,0.1); color: var(--accent); }
+  .impact-purple { background: rgba(183,140,255,0.1); color: var(--accent2); }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag { font-family: var(--mono); font-size: 10.5px; padding: 4px 11px; background: rgba(94,169,255,0.06); color: var(--text-dim); border: 1px solid var(--border-bright); border-radius: 7px; transition: all 0.15s; }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* DETAILS GRID */
+  .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .detail-col h4 { font-family: var(--mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--cyan); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .detail-col ul { list-style: none; }
+  .detail-col li { font-size: 13px; color: var(--text-dim); margin-bottom: 7px; padding-left: 18px; position: relative; line-height: 1.55; }
+  .detail-col li::before { content: ""; position: absolute; left: 2px; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: 0.7; }
+
+  /* APPROACH */
+  .approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .approach-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px; padding: 22px; transition: all 0.22s; }
+  .approach-card:hover { border-color: var(--border-bright); transform: translateY(-3px); }
+  .approach-card .ico { width: 40px; height: 40px; border-radius: 10px; background: rgba(94,169,255,0.1); border: 1px solid rgba(94,169,255,0.22); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; color: var(--accent); }
+  .approach-card .ico i { font-size: 19px; }
+  .approach-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 7px; letter-spacing: -0.01em; }
+  .approach-card p { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+
+  /* TECH STACK */
+  .stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .stack-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 18px; transition: all 0.2s; }
+  .stack-item:hover { border-color: var(--border-bright); }
+  .stack-cat { font-family: var(--mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); margin-bottom: 9px; display: flex; align-items: center; gap: 7px; }
+  .stack-list { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+
+  /* FOOTER */
+  footer { padding: 56px 0 40px; margin-top: 48px; border-top: 1px solid var(--border); text-align: center; }
+  footer .cta { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 18px; }
+  footer .cta .grad { background: linear-gradient(115deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  footer .flinks { display: flex; gap: 16px; justify-content: center; margin-bottom: 24px; flex-wrap: wrap; }
+  footer .flinks a { font-size: 14px; color: var(--text-dim); display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; }
+  footer .flinks a:hover { border-color: var(--accent); color: var(--accent); }
+  footer p { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
+
+  /* REVEAL ANIMATION */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(.2,.7,.2,1), transform 0.7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } .hero .eyebrow .dot { animation: none; } }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .metrics { grid-template-columns: repeat(3, 1fr); }
+    .details-grid { grid-template-columns: 1fr; gap: 14px; }
+    .stack-grid { grid-template-columns: 1fr 1fr; }
+    .approach-grid { grid-template-columns: 1fr; }
+    .flow { gap: 4px; }
+    .project { padding: 24px 20px; }
+  }
+  @media (max-width: 480px) {
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .stack-grid { grid-template-columns: 1fr; }
+    .metric-val { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<nav>
+  <div class="container">
+    <div class="logo"><i data-lucide="terminal"></i>jmo.systems</div>
+    <div class="links">
+      <a href="#systems"><i data-lucide="boxes"></i><span>Systems</span></a>
+      <a href="#approach"><i data-lucide="compass"></i><span>Approach</span></a>
+      <a href="#engagement"><i data-lucide="handshake"></i><span>Work</span></a>
+      <a href="#stack"><i data-lucide="layers"></i><span>Stack</span></a>
+      <a href="https://github.com/jmomugtong" target="_blank"><svg class="brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg><span>GitHub</span></a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-grid">
+      <div class="hero-main">
+        <div class="eyebrow"><span class="dot"></span>Open to AI consulting &amp; automation partnerships · GMT+8</div>
+        <h1>I build <span class="grad rotator" data-words="autonomous systems|AI agent fleets|voice pipelines">autonomous systems</span>from zero to enterprise scale.</h1>
+        <div class="subtitle">
+          <span>Founding RevOps &amp; Automation Architect</span>
+          <span class="sep">/</span>
+          <span class="co">Tarek Buys Houses</span>
+        </div>
+        <div class="bio">
+          I architect and build the automation that runs a company's revenue engine — lead
+          generation, multi-agent orchestration, voice outreach, and the data pipelines that tie
+          it all to closed deals. As founding automation architect at <strong>Tarek Buys
+          Houses</strong>, I built an autonomous AI sales platform: AI voice agents that call leads
+          within 60 seconds and <strong>20 always-on agents</strong> running follow-up, creative,
+          and campaign decisions 24/7. Every system below is real, built solo, and running in production.
+        </div>
+        <div class="links-row">
+          <a class="primary" href="mailto:omugtongjoshuamiguel@gmail.com"><i data-lucide="mail"></i>Get in touch</a>
+          <a href="https://linkedin.com/in/joshuaomugtong" target="_blank"><svg class="brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>LinkedIn</a>
+          <a href="https://github.com/jmomugtong" target="_blank"><svg class="brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>GitHub</a>
+        </div>
+      </div>
+      <div class="hero-photo reveal">
+        <img src="joshua.jpg" alt="Joshua Miguel Omugtong" width="760" height="1064">
+      </div>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics reveal">
+      <div class="metric"><div class="metric-val" data-count="90" data-suffix="%">0</div><div class="metric-label">Manual Effort Cut</div></div>
+      <div class="metric"><div class="metric-val" data-count="10" data-suffix="+">0</div><div class="metric-label">Production Systems</div></div>
+      <div class="metric"><div class="metric-val" data-count="55" data-suffix="+">0</div><div class="metric-label">AI Agents Shipped</div></div>
+      <div class="metric"><div class="metric-val" data-count="5" data-suffix="x">0</div><div class="metric-label">Throughput Gain</div></div>
+      <div class="metric"><div class="metric-val" data-prefix="&lt;" data-count="60" data-suffix="s">0</div><div class="metric-label">Speed-to-Lead</div></div>
+    </div>
+  </div>
+
+  <!-- PRODUCTION SYSTEMS -->
+  <div class="section" id="systems">
+    <div class="section-header reveal">
+      <div class="section-label"><i data-lucide="zap"></i>Production Systems</div>
+      <div class="section-title">Built from scratch. Running in production.</div>
+      <div class="section-desc">Each system was designed, built, deployed, and operated by me as the sole engineer. No templates, no hand-offs — autonomous platforms that move revenue.</div>
+    </div>
+
+    <!-- 1. Autonomous AI Sales Platform -->
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name"><i data-lucide="radar"></i>Autonomous AI Sales Platform</div>
+        <span class="project-badge badge-prod"><i data-lucide="circle-check"></i>Production</span>
+      </div>
+      <div class="project-context">Real-estate sector · React 19 + tRPC + Drizzle + TiDB · ElevenLabs · Meta/Google Ads APIs</div>
+      <div class="project-desc">An autonomous lead-conversion platform that fires an AI voice call within 60 seconds of a form submission, then orchestrates 24/7 multi-channel follow-up across SMS, email, voicemail, and video — all governed by a "Commander" engine running 15-minute autonomous decision cycles over live Meta and Google campaigns.</div>
+
+      <div class="arch">
+        <div class="arch-title"><i data-lucide="workflow"></i>Platform Architecture</div>
+        <div class="flow-vertical">
+          <div class="flow">
+            <div class="node node-accent">Lead Intake<span class="node-sub">Form / Meta / Messenger</span></div>
+            <span class="arrow"><i data-lucide="arrow-right"></i></span>
+            <div class="node node-purple">Enrichment<span class="node-sub">Score · PII · RentCast</span></div>
+            <span class="arrow"><i data-lucide="arrow-right"></i></span>
+            <div class="node node-cyan">Speed-to-Lead<span class="node-sub">Voice Clone &lt;60s</span></div>
+            <span class="arrow"><i data-lucide="arrow-right"></i></span>
+            <div class="node node-green">Multi-Channel<span class="node-sub">SMS · Email · Video</span></div>
+          </div>
+          <span class="arrow-down"><i data-lucide="arrow-down"></i></span>
+          <div class="flow-branch">
+            <div class="node node-orange">Commander<span class="node-sub">15-min decision loop</span></div>
+            <div class="node">11 Scanners<span class="node-sub">creative · budget · compliance</span></div>
+            <div class="node node-pink">Campaign Deploy<span class="node-sub">Meta · Google · CTV</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-col">
+          <h4><i data-lucide="cpu"></i>System</h4>
+          <ul>
+            <li>20 always-on agents (caller, deal analyst, SMS AI, offer generator, voicemail, video)</li>
+            <li>ElevenLabs conversational voice + HeyGen avatar video</li>
+            <li>Commander runs 25+ action types: pause, scale, deploy, rotate creative</li>
+            <li>Compositing engine generates ad creative across 12 layout templates</li>
+          </ul>
+        </div>
+        <div class="detail-col">
+          <h4><i data-lucide="shield-check"></i>Scale &amp; Reliability</h4>
+          <ul>
+            <li>90+ database tables on TiDB Cloud; type-safe end to end (tRPC + Drizzle)</li>
+            <li>4 Meta ad accounts monitored and optimized in parallel</li>
+            <li>36+ landing pages across 20 seller situations + 11 cities</li>
+            <li>Performance sync every 6 hours; real-time agent loop every 15 minutes</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <span class="impact impact-blue"><i data-lucide="phone-call"></i>&lt;60s speed-to-lead</span>
+        <span class="impact impact-green"><i data-lucide="bot"></i>20 autonomous agents</span>
+        <span class="impact impact-purple"><i data-lucide="database"></i>90+ tables</span>
+      </div>
+      <div class="tags">
+        <span class="tag">React 19</span><span class="tag">TypeScript</span><span class="tag">tRPC</span><span class="tag">Drizzle ORM</span><span class="tag">TiDB Cloud</span><span class="tag">ElevenLabs</span><span class="tag">HeyGen</span><span class="tag">Meta Ads API</span><span class="tag">Google Ads</span><span class="tag">Claude API</span>
+      </div>
+    </div>
+
+    <!-- 2. Ally HQ -->
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name"><i data-lucide="layout-dashboard"></i>Autonomous Operating System for Real-Estate Agents</div>
+        <span class="project-badge badge-live"><i data-lucide="rocket"></i>Deployed SaaS</span>
+      </div>
+      <div class="project-context">Real-estate sector · React 19 + Express + tRPC + MySQL · 49 integrations · Stripe billing</div>
+      <div class="project-desc">A full-stack SaaS where 35+ AI agents run an agent's entire operation 24/7 — generating daily content, capturing and scoring leads, automating follow-up, and managing ad spend. Multi-tenant, billed via Stripe, with real agents and live lead data flowing through it.</div>
+
+      <div class="arch">
+        <div class="arch-title"><i data-lucide="workflow"></i>Platform Architecture</div>
+        <div class="flow">
+          <div class="node node-accent">Agent UI<span class="node-sub">React + Vite</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node">tRPC API<span class="node-sub">Express + Drizzle</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-purple">35+ AI Agents<span class="node-sub">content · leads · ads</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-orange">49 Integrations<span class="node-sub">Meta · MLS · ElevenLabs</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-green">MySQL<span class="node-sub">119 tables</span></div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <span class="impact impact-green"><i data-lucide="bot"></i>35+ AI agents</span>
+        <span class="impact impact-blue"><i data-lucide="database"></i>119 tables · 75+ pages</span>
+        <span class="impact impact-purple"><i data-lucide="plug"></i>49 integrations</span>
+      </div>
+      <div class="tags">
+        <span class="tag">React 19</span><span class="tag">TypeScript</span><span class="tag">Express</span><span class="tag">tRPC</span><span class="tag">MySQL + Drizzle</span><span class="tag">ElevenLabs</span><span class="tag">Simli</span><span class="tag">Stripe</span><span class="tag">AWS S3</span><span class="tag">Framer Motion</span>
+      </div>
+    </div>
+
+    <!-- 3. AI Real-Estate Platform -->
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name"><i data-lucide="house"></i>AI Real-Estate Platform</div>
+        <span class="project-badge badge-client"><i data-lucide="package"></i>Product · PM</span>
+      </div>
+      <div class="project-context">Real-estate sector · Project Manager · Next.js 15 + Prisma + PostgreSQL · LiveKit + OpenAI avatar</div>
+      <div class="project-desc">A full-stack real-estate platform with a real-time AI avatar concierge that guides buyers and sellers through discovery, listing, and offer management — with compliance guardrails that escalate legal and pricing questions to humans. I lead this product as project manager, owning the buyer/seller flows, backend architecture, and the LiveKit + OpenAI voice agent.</div>
+
+      <div class="arch">
+        <div class="arch-title"><i data-lucide="workflow"></i>System Architecture</div>
+        <div class="flow">
+          <div class="node node-accent">Next.js App<span class="node-sub">Buyer / Seller UI</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node">API Layer<span class="node-sub">Offers · Webhooks</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-cyan">LiveKit Agent<span class="node-sub">Silero VAD + OpenAI</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-orange">Compliance<span class="node-sub">Escalation guardrails</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-green">PostgreSQL<span class="node-sub">Prisma + RBAC</span></div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <span class="impact impact-green"><i data-lucide="mic"></i>Real-time AI avatar</span>
+        <span class="impact impact-blue"><i data-lucide="shield"></i>Compliance guardrails</span>
+        <span class="impact impact-purple"><i data-lucide="smartphone"></i>iOS/Android via Capacitor</span>
+      </div>
+      <div class="tags">
+        <span class="tag">Next.js 15</span><span class="tag">TypeScript</span><span class="tag">Prisma</span><span class="tag">PostgreSQL</span><span class="tag">LiveKit</span><span class="tag">OpenAI</span><span class="tag">MCP</span><span class="tag">ElevenLabs</span><span class="tag">Capacitor</span><span class="tag">Vercel</span>
+      </div>
+    </div>
+
+    <!-- 4. Conversion Funnel + AI Video Engine -->
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name"><i data-lucide="video"></i>Conversion Funnel + AI Video Engine</div>
+        <span class="project-badge badge-live"><i data-lucide="globe"></i>Live</span>
+      </div>
+      <div class="project-context">Real-estate sector · Netlify + Vercel Blob · GoHighLevel + Make.com · ElevenLabs + Kling + Creatomate</div>
+      <div class="project-desc">A conversion-optimized real-estate funnel across 7 seller personas, paired with an automated UGC video pipeline. Inbound replies are scored in real time on 6 signals (timeline, motivation, equity, authority…) to tag leads HOT/WARM/NURTURE and route segment-specific nurture sequences, while AI generates and auto-posts micro-films to TikTok, Instagram, and YouTube.</div>
+
+      <div class="arch">
+        <div class="arch-title"><i data-lucide="workflow"></i>Funnel + Content Pipeline</div>
+        <div class="flow">
+          <div class="node node-accent">Landing Funnel<span class="node-sub">7 personas</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-purple">Lead Scoring<span class="node-sub">6-signal · real-time</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-orange">Nurture<span class="node-sub">GHL + Make.com</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-cyan">AI Video<span class="node-sub">Kling · ElevenLabs · Creatomate</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-green">Auto-Post<span class="node-sub">TikTok · IG · YT</span></div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <span class="impact impact-green"><i data-lucide="target"></i>7-persona funnel</span>
+        <span class="impact impact-blue"><i data-lucide="film"></i>Automated video production</span>
+        <span class="impact impact-purple"><i data-lucide="activity"></i>GA4 + GTM attribution</span>
+      </div>
+      <div class="tags">
+        <span class="tag">Tailwind</span><span class="tag">Netlify</span><span class="tag">Vercel Blob</span><span class="tag">GoHighLevel</span><span class="tag">Make.com</span><span class="tag">ElevenLabs</span><span class="tag">Kling/Veo</span><span class="tag">Creatomate</span><span class="tag">GA4 + GTM</span>
+      </div>
+    </div>
+
+    <!-- 5. Multi-Agent (Xenon) -->
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name"><i data-lucide="brain"></i>Multi-Agent Orchestration Framework</div>
+        <span class="project-badge badge-prod"><i data-lucide="circle-check"></i>Production</span>
+      </div>
+      <div class="project-context">Xenon Health (US healthcare, remote) · Python/FastAPI + Azure OpenAI + Retell AI</div>
+      <div class="project-desc">Three specialized AI agents (Recruiting, Jobs, Marketing) operate autonomously under a centralized orchestrator. Each scores leads through a 6-phase pipeline and executes outreach over dynamically selected channels — email or AI voice call — with a template fallback that guarantees uptime when an upstream API fails.</div>
+
+      <div class="arch">
+        <div class="arch-title"><i data-lucide="workflow"></i>Orchestration Architecture</div>
+        <div class="flow-vertical">
+          <div class="flow">
+            <div class="node node-accent">API Request<span class="node-sub">JWT + RBAC</span></div>
+            <span class="arrow"><i data-lucide="arrow-right"></i></span>
+            <div class="node node-purple">Orchestrator<span class="node-sub">Centralized routing</span></div>
+            <span class="arrow"><i data-lucide="arrow-right"></i></span>
+            <div class="node">6-Phase Pipeline<span class="node-sub">filter → score → rank</span></div>
+            <span class="arrow"><i data-lucide="arrow-right"></i></span>
+            <div class="node node-orange">LLM Service<span class="node-sub">Structured outputs</span></div>
+          </div>
+          <span class="arrow-down"><i data-lucide="arrow-down"></i></span>
+          <div class="flow-branch">
+            <div class="node node-green">Email Handler<span class="node-sub">Instantly.ai</span></div>
+            <div class="node node-cyan">Voice Handler<span class="node-sub">Retell AI</span></div>
+            <div class="node node-pink">Template Fallback<span class="node-sub">uptime guard</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <span class="impact impact-green"><i data-lucide="check-circle-2"></i>100% uptime</span>
+        <span class="impact impact-blue"><i data-lucide="flask-conical"></i>88+ tests</span>
+        <span class="impact impact-purple"><i data-lucide="bot"></i>3 autonomous agents</span>
+      </div>
+      <div class="tags">
+        <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Azure OpenAI</span><span class="tag">Retell AI</span><span class="tag">Dependency Injection</span><span class="tag">Structured Outputs</span><span class="tag">Pydantic</span>
+      </div>
+    </div>
+
+    <!-- 6. Document AI (Xenon) -->
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name"><i data-lucide="file-search"></i>Document AI Pipeline Refactor</div>
+        <span class="project-badge badge-prod"><i data-lucide="circle-check"></i>Production</span>
+      </div>
+      <div class="project-context">Xenon Health · FastAPI Microservices + GPT-4o Vision · 20+ users across 17+ US states</div>
+      <div class="project-desc">Redesigned a monolithic 1,500-line OCR pipeline into a modular 6-service architecture that processes 100–400+ page medical documents with AI extraction, validation, and structured output — cutting the codebase 63% while raising throughput 5x.</div>
+
+      <div class="arch">
+        <div class="arch-title"><i data-lucide="workflow"></i>Service Architecture</div>
+        <div class="flow">
+          <div class="node node-accent">PDF Ingestion<span class="node-sub">Multi-page</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node">Preprocessing<span class="node-sub">7-stage</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-purple">AI Service<span class="node-sub">GPT-4o Vision</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-orange">Validation<span class="node-sub">Schema + rules</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-green">Structured Output<span class="node-sub">JSON API</span></div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <span class="impact impact-green"><i data-lucide="trending-down"></i>63% codebase cut</span>
+        <span class="impact impact-blue"><i data-lucide="gauge"></i>5x throughput (30s → 0.6s)</span>
+        <span class="impact impact-purple"><i data-lucide="user-check"></i>80-90% less manual review</span>
+      </div>
+      <div class="tags">
+        <span class="tag">FastAPI</span><span class="tag">Microservices</span><span class="tag">GPT-4o Vision</span><span class="tag">Docker</span><span class="tag">Azure</span><span class="tag">Pydantic</span><span class="tag">Async</span>
+      </div>
+    </div>
+
+    <!-- 7. Voice Agent (Xenon) -->
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name"><i data-lucide="phone-call"></i>AI Voice Agent + Post-Call Intelligence</div>
+        <span class="project-badge badge-prod"><i data-lucide="circle-check"></i>Production</span>
+      </div>
+      <div class="project-context">Xenon Health · Retell AI + Webhooks + CRM</div>
+      <div class="project-desc">A production calling system that runs AI-powered outbound calls, conducts autonomous conversations with healthcare professionals grounded in an enterprise knowledge base, and extracts structured intelligence from every interaction straight into CRM records — zero manual data entry.</div>
+
+      <div class="impact-row">
+        <span class="impact impact-green"><i data-lucide="keyboard"></i>Zero manual entry</span>
+        <span class="impact impact-blue"><i data-lucide="refresh-cw"></i>Real-time CRM sync</span>
+      </div>
+      <div class="tags">
+        <span class="tag">Retell AI</span><span class="tag">Webhooks</span><span class="tag">n8n</span><span class="tag">CRM Integration</span><span class="tag">Knowledge Base</span><span class="tag">Post-Call Analytics</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENGINEERING APPROACH -->
+  <div class="section" id="approach">
+    <div class="section-header reveal">
+      <div class="section-label"><i data-lucide="compass"></i>Engineering Approach</div>
+      <div class="section-title">How I build systems that survive production.</div>
+    </div>
+    <div class="approach-grid">
+      <div class="approach-card reveal">
+        <div class="ico"><i data-lucide="shield-check"></i></div>
+        <h4>Fault-Tolerant by Default</h4>
+        <p>Every external call has a fallback. Template responses, heuristic scoring, and retry logic keep systems serving even when an upstream API goes dark.</p>
+      </div>
+      <div class="approach-card reveal">
+        <div class="ico"><i data-lucide="git-merge"></i></div>
+        <h4>Structured Outputs Over Vibes</h4>
+        <p>LLM reasoning is converted to validated, typed, executable actions — Pydantic and Zod schemas at every boundary so an agent's decision is auditable, not a black box.</p>
+      </div>
+      <div class="approach-card reveal">
+        <div class="ico"><i data-lucide="layers"></i></div>
+        <h4>Modular Over Monolithic</h4>
+        <p>I break monoliths into focused services with dependency injection, so routing is decoupled from implementation and any piece can be swapped or scaled alone.</p>
+      </div>
+      <div class="approach-card reveal">
+        <div class="ico"><i data-lucide="scroll-text"></i></div>
+        <h4>Observable End to End</h4>
+        <p>Every decision is logged with chain-of-thought reasoning. Health dashboards, audit reports, and live agent feeds mean I can see what the system did and why.</p>
+      </div>
+      <div class="approach-card reveal">
+        <div class="ico"><i data-lucide="gauge"></i></div>
+        <h4>Measured by Business Impact</h4>
+        <p>Throughput, manual-effort reduction, speed-to-lead. I instrument systems against the number that matters to the business, not just technical metrics.</p>
+      </div>
+      <div class="approach-card reveal">
+        <div class="ico"><i data-lucide="infinity"></i></div>
+        <h4>Autonomous, Not Unattended</h4>
+        <p>Agents run on recurring cycles and act on their own — but high-stakes moves flag for human review. Autonomy with a hand on the brake.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPEN SOURCE -->
+  <div class="section" id="oss">
+    <div class="section-header reveal">
+      <div class="section-label"><i data-lucide="git-branch"></i>Open Source</div>
+      <div class="section-title">Side projects that go deeper.</div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name"><i data-lucide="heart-pulse"></i>KaagapAI — Offline Clinical RAG System</div>
+        <span class="project-badge badge-oss"><i data-lucide="code"></i>Open Source</span>
+      </div>
+      <div class="project-context"><a href="https://github.com/jmomugtong/KaagapAI" target="_blank">github.com/jmomugtong/KaagapAI</a> · Published research paper</div>
+      <div class="project-desc">A production-grade RAG system for Philippine healthcare clinics with unreliable internet. Dual retrieval pipelines (agentic + classical), hybrid search, full observability, and automated evaluation — built in 4 weeks.</div>
+
+      <div class="arch">
+        <div class="arch-title"><i data-lucide="workflow"></i>Retrieval Architecture</div>
+        <div class="flow">
+          <div class="node node-accent">Query<span class="node-sub">Classification</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-purple">Multi-Query<span class="node-sub">Expansion</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node">Hybrid Search<span class="node-sub">BM25 + pgvector</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-orange">Reranker<span class="node-sub">FlashRank</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-cyan">Redis Cache<span class="node-sub">Sub-10ms</span></div>
+          <span class="arrow"><i data-lucide="arrow-right"></i></span>
+          <div class="node node-green">Response<span class="node-sub">Grounded</span></div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <span class="impact impact-green"><i data-lucide="zap"></i>Sub-10ms cached</span>
+        <span class="impact impact-blue"><i data-lucide="wifi-off"></i>Offline-first</span>
+        <span class="impact impact-purple"><i data-lucide="book-open"></i>Published research</span>
+      </div>
+      <div class="tags">
+        <span class="tag">FastAPI</span><span class="tag">PostgreSQL + pgvector</span><span class="tag">Redis</span><span class="tag">BM25</span><span class="tag">FlashRank</span><span class="tag">OpenTelemetry</span><span class="tag">Prometheus</span><span class="tag">Docker</span>
+      </div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name"><i data-lucide="map-pin"></i>KALYE — Geospatial AI Inference Platform</div>
+        <span class="project-badge badge-oss"><i data-lucide="code"></i>Open Source</span>
+      </div>
+      <div class="project-context"><a href="https://github.com/jmomugtong/KALYE" target="_blank">github.com/jmomugtong/KALYE</a> · In progress</div>
+      <div class="project-desc">A modular AI platform for automated road-infrastructure detection: FastAPI microservices, containerized Hugging Face model workers, async image-processing pipelines, and PostGIS for geospatial analytics.</div>
+
+      <div class="tags">
+        <span class="tag">FastAPI</span><span class="tag">Hugging Face</span><span class="tag">YOLOv8</span><span class="tag">SegFormer</span><span class="tag">PostgreSQL + PostGIS</span><span class="tag">Celery</span><span class="tag">Docker</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECH STACK -->
+  <div class="section" id="stack">
+    <div class="section-header reveal">
+      <div class="section-label"><i data-lucide="layers"></i>Technical Stack</div>
+      <div class="section-title">Tools I use daily in production.</div>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-item reveal">
+        <div class="stack-cat"><i data-lucide="code-2"></i>Backend</div>
+        <div class="stack-list">Python, FastAPI, Quart, Node.js, TypeScript, Express, tRPC, Microservices</div>
+      </div>
+      <div class="stack-item reveal">
+        <div class="stack-cat"><i data-lucide="brain"></i>AI &amp; LLMs</div>
+        <div class="stack-list">OpenAI, Azure OpenAI, Claude (via Claude Code), LangChain, RAG, MCP, Structured Outputs</div>
+      </div>
+      <div class="stack-item reveal">
+        <div class="stack-cat"><i data-lucide="mic"></i>Voice &amp; Agents</div>
+        <div class="stack-list">ElevenLabs, Retell AI, LiveKit, HeyGen, Simli, multi-agent orchestration</div>
+      </div>
+      <div class="stack-item reveal">
+        <div class="stack-cat"><i data-lucide="workflow"></i>Automation</div>
+        <div class="stack-list">n8n, Make.com, GoHighLevel, Meta &amp; Google Ads APIs, Webhooks, Playwright</div>
+      </div>
+      <div class="stack-item reveal">
+        <div class="stack-cat"><i data-lucide="database"></i>Data</div>
+        <div class="stack-list">PostgreSQL, pgvector, MySQL, TiDB Cloud, Redis, PostGIS, Prisma, Drizzle</div>
+      </div>
+      <div class="stack-item reveal">
+        <div class="stack-cat"><i data-lucide="server"></i>Frontend &amp; Infra</div>
+        <div class="stack-list">React, Next.js, Vite, Tailwind, Docker, Azure, Vercel, Netlify, CI/CD, OpenTelemetry</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENGAGEMENT -->
+  <div class="section" id="engagement">
+    <div class="section-header reveal">
+      <div class="section-label"><i data-lucide="handshake"></i>How I Work</div>
+      <div class="section-title">An external partner, aligned to your results.</div>
+    </div>
+    <div class="engage reveal">
+      <div class="lead">I'm an <span class="grad">external automation architect</span> — not headcount.</div>
+      <p>
+        I scope, build, and operate revenue systems as a partner, with my incentives tied to the
+        outcomes they produce. Engagements combine a one-time build, a monthly retainer for ongoing
+        operations, and a performance share aligned to results — so the system has to earn its keep.
+        Media spend, tooling, and AI usage are billed transparently, separate from my fee.
+      </p>
+      <div class="engage-cols">
+        <div class="engage-col">
+          <div class="ec-label"><i data-lucide="hammer"></i>Build</div>
+          <div class="ec-title">One-time</div>
+          <div class="ec-desc">Architect and ship the system end to end — prove the model on the highest-leverage funnel first.</div>
+        </div>
+        <div class="engage-col">
+          <div class="ec-label"><i data-lucide="repeat"></i>Retainer</div>
+          <div class="ec-title">Monthly</div>
+          <div class="ec-desc">Run, monitor, and optimize operations — agents, campaigns, and pipelines kept healthy and improving.</div>
+        </div>
+        <div class="engage-col">
+          <div class="ec-label"><i data-lucide="trending-up"></i>Performance Share</div>
+          <div class="ec-title">Aligned to results</div>
+          <div class="ec-desc">Clean attribution built into every system, so revenue is tied to the funnel, region, and lead that produced it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="cta">Building something that needs to <span class="grad">run itself</span>? Let's talk.</div>
+    <div class="flinks">
+      <a href="mailto:omugtongjoshuamiguel@gmail.com"><i data-lucide="mail"></i>omugtongjoshuamiguel@gmail.com</a>
+      <a href="https://linkedin.com/in/joshuaomugtong" target="_blank"><svg class="brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>LinkedIn</a>
+      <a href="https://github.com/jmomugtong" target="_blank"><svg class="brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>GitHub</a>
+    </div>
+    <p>Joshua Miguel Omugtong · Makati City, Philippines · Remote-first</p>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+  // icons
+  if (window.lucide) lucide.createIcons();
+
+  // rotating headline word
+  const rot = document.querySelector('.rotator');
+  if (rot && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const words = rot.dataset.words.split('|'); let ri = 0;
+    setInterval(() => {
+      rot.classList.add('swap');
+      setTimeout(() => { ri = (ri + 1) % words.length; rot.textContent = words[ri]; rot.classList.remove('swap'); }, 400);
+    }, 2800);
+  }
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // count-up metrics
+  const fmt = (el, val) => {
+    const pre = el.dataset.prefix ? el.dataset.prefix.replace('&lt;','<') : '';
+    const suf = el.dataset.suffix || '';
+    el.textContent = pre + Math.round(val) + suf;
+  };
+  const countUp = (el) => {
+    const target = +el.dataset.count; const dur = 1100; const t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      fmt(el, target * eased);
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const mio = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { countUp(e.target); mio.unobserve(e.target); } });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.metric-val[data-count]').forEach(el => mio.observe(el));
+
+  // active nav link on scroll
+  const sections = [...document.querySelectorAll('.section[id]')];
+  const navLinks = new Map([...document.querySelectorAll('nav .links a[href^="#"]')].map(a => [a.getAttribute('href').slice(1), a]));
+  const sio = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const a = navLinks.get(e.target.id); if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(s => sio.observe(s));
+</script>
+
+</body>
+</html>
